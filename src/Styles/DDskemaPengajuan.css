@@ -1,0 +1,41 @@
+.SkemaPengajuan {
+  font-family: inherit;
+  font-size: 1rcm;
+  margin-top: 16px;
+}
+
+#DropDown {
+  font-family: inherit;
+  font-size: 1rcm;
+  margin-top: 16px;
+}
+
+#labelColor {
+  color: #542D86;
+  position: static;
+  width: 322px;
+  height: 25px;
+  left: 0px;
+  top: 0px;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 24px;
+}
+
+.borderMargin {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  margin-right: 600px;
+  margin-left: 600px;
+
+}
+.mainForm {
+  width: 940px;
+  margin:0 auto;
+  align-content: center;
+  align-items: center;
+  background-color:#fff;
+  top: 100px;
+}

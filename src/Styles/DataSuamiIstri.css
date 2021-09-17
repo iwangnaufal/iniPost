@@ -1,0 +1,105 @@
+/* html, body {
+  box-sizing: border-box;
+} */
+
+#mainPage {
+  background-image: url("../bg.jpg");
+  top: 0;
+  margin: 0;
+  padding: 0;
+}
+
+#mainForm {
+  display: flex;
+  flex-direction: column;
+  width: 940px;
+  margin: auto;
+  background-color: white;
+}
+
+.judul {
+  text-align: center;
+  left: 411.5px;
+  padding-top: 2rem;
+  margin: 0;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 20px;
+  /* identical to box height, or 100% */
+  color: #6A0070;
+}
+
+#formContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  width: 641px;
+  margin: 0 auto;
+}
+
+#firstSubformContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.subformTitle {
+  font-size: 14px;
+  font-family: Open Sans;
+  font-weight: 600;
+  color: #542D86;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#phoneTitleContainer {
+  margin-bottom: 13px;
+}
+
+#formButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center !important;
+  justify-content: center;
+  position: static;
+  width: 940px;
+  height: 14.89vw;
+  margin-top: 30px;
+  background: #FFFFFF;
+  box-shadow: 0px -9px 14px rgba(0, 0, 0, 0.1);
+}
+
+#bckBtn {
+  width: 180px;
+  height: 36px;
+  border-radius: 7px;
+  padding: 4px, 40px, 4px, 40px;
+  background-color: #fff !important;
+  color: #542D86 !important;
+  border: 1px solid #542D86;
+  margin-right: 30px;
+}
+
+#nxtBtn {
+  width: 180px;
+  height: 36px;
+  border-radius: 7px;
+  padding: 4px, 40px, 4px, 40px;
+  color: #fff !important;
+  background-color: #542D86 !important;
+  border: 1px solid #542D86;
+}
+
+#currencyContainer {
+  display: flex;
+  margin-top: 6px;
+  padding: 6px 0 6px;
+}
+
+.space {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

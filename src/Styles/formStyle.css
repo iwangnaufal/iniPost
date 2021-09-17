@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+body, html{
+    top: 0;
+}
+
+.mainPage {
+    background-image: url("../bg.jpg");
+    top: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.mainForm {
+    width: 940px;
+    margin:0 auto;
+    align-content: center;
+    align-items: center;
+    background-color:#fff;
+    top: 100px;
+}
+
+.judul {
+    text-align: center;
+    left: 411.5px;
+    padding-top: 2rem;
+    margin: 0;
+
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 20px;
+    /* identical to box height, or 100% */
+
+    color: #6A0070;
+}
+
+.switchLabel {
+    color: #000000;
+    font-size: 12px;
+    font-family: 'Open Sans';
+}
+
+.footer {
+    display: flex;
+    align-items: center !important;
+    align-content: center;
+    flex-direction: row;
+    padding: 30px 40px;
+    height: 90px;
+    background-color:#fff;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    margin-top: 50px;
+    justify-content:space-around
+}
+
+.button1 {
+    width: 180px;
+    height: 36px;
+    border-radius: 7px;
+    padding: 4px, 40px, 4px, 40px;
+    background-color: #fff !important;
+    color: #542D86 !important;
+    border: 1px solid #542D86;
+}
+
+.button2 {
+    width: 180px;
+    height: 36px;
+    border-radius: 7px;
+    padding: 4px, 40px, 4px, 40px;
+    color: #fff !important;
+    background-color: #542D86 !important;
+    border: 1px solid #542D86;
+    
+}
