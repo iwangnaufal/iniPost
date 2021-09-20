@@ -22,6 +22,7 @@ const styles = theme => createStyles({
   formControl: {
     left: 150,
     right: 150
+    
   },
   text: {
     width: "641px",
@@ -81,12 +82,12 @@ export class FasilitasPembayaran extends Component {
       this.setState({ isPropertiKendaraan: true })
       this.setState({ isProperti: false })
       this.setState({ isTakeOver: false })
-      this.props.handleChange("tujuanPembiayaan")
+      this.props.handleChange("peruntukanPembiayaan")
     } else if (event.target.value === "Properti") {
       this.setState({ isProperti: true })
       this.setState({ isPropertiKendaraan: false })
       this.setState({ isTakeOver: false })
-      this.props.handleChange("tujuanPembiayaan")
+      this.props.handleChange("peruntukanPembiayaan")
 
     } else if (event.target.value === "TakeOver") {
       this.setState({ isTakeOver: true })
@@ -98,7 +99,7 @@ export class FasilitasPembayaran extends Component {
       this.setState({ isProperti: false })
       this.setState({ isTakeOver: false })
 
-      this.props.handleChange("tujuanPembiayaan")
+      this.props.handleChange("peruntukanPembiayaan")
     }
   }
 
@@ -126,7 +127,7 @@ export class FasilitasPembayaran extends Component {
     e.preventDefault();
     this.props.nextStep();
   };
-  
+
   render() {
     const { values, handleChange, classes, handleLainnya, handleMmq, handleAkad, handlePembiayaan, handleFasilitas, handleAkadFasilitas,
       daftarProvinsi, daftarKabupatenKota, daftarKecamatan, daftarKelurahan,
@@ -196,7 +197,7 @@ export class FasilitasPembayaran extends Component {
             <TextField
               label={values.peruntukanPembiayaan === "" ? "Pilih Peruntukan Pembiayaan" : ""}
               InputLabelProps={{ shrink: false }}
-              onChange={handleLainnya('peruntukanPembiayaan')}
+              onChange={handlePembiayaan('peruntukanPembiayaan')}
               className={classes.text}
               defaultValue={values.peruntukanPembiayaan}
               margin="normal"
@@ -204,132 +205,10 @@ export class FasilitasPembayaran extends Component {
               select>
               <MenuItem value={10}>Pembelian Properti</MenuItem>
               <MenuItem value={20}>Top Up</MenuItem>
-              <MenuItem value={30}>Take Over</MenuItem>
-              <MenuItem value={40}>Take Over + Top Up</MenuItem>
-              <MenuItem value={50}>Pembiayaan Konsumsi Beragun Properti</MenuItem>
+              <MenuItem value="PropertiKendaraan">Take Over</MenuItem>
+              <MenuItem value="Properti">Take Over + Top Up</MenuItem>
+              <MenuItem value="TakeOver">Pembiayaan Konsumsi Beragun Properti</MenuItem>
             </TextField>
-          </FormControl>
-          <br />
-          <br />
-
-          {/* Program MMQ dan Lainnya */}
-          <FormControl className={classes.formControl}>
-            <FormLabel className={classes.label}>Program</FormLabel>
-            <TextField
-              label={values.pilihProgram === "" ? "Pilih Program" : ""}
-              InputLabelProps={{ shrink: false }}
-              onChange={handleMmq('pilihProgram')}
-              className={classes.text}
-              defaultValue={values.pilihProgram}
-              margin="normal"
-              fullWidth
-              select>
-              <MenuItem value={10}>Fix & Fix</MenuItem>
-              <MenuItem value={20}>Angsuran Super Ringan</MenuItem>
-              <MenuItem value="MMQ">Special MMQ</MenuItem>
-              <MenuItem value="Lainnyaa">Lainnya</MenuItem>
-            </TextField>
-            {
-              isMmq ?
-                <TextField
-                  placeholder="Masukan Masa Fix"
-                  margin="normal"
-                  className={classes.text}
-                  onChange={handleChange("specialMmq")}
-                  //tambah state baru statusLainnya
-                  defaultValue={values.specialMmq}
-                />
-                : null
-            }
-            {
-              isLainProgram ?
-                <TextField
-                  placeholder="Lainnya"
-                  margin="normal"
-                  className={classes.text}
-                  onChange={handleChange("statusProgram")}
-                  //tambah state baru statusLainnya
-                  defaultValue={values.statusProgram}
-                />
-                : null
-            }
-          </FormControl>
-          <br />
-          <br />
-          {/* Lainnya Belum */}
-          <FormControl className={classes.formControl}>
-            <FormLabel className={classes.label}>Akad Fasilitas yang Diajukan</FormLabel>
-            <TextField
-              label={values.akadDiajukan === "" ? "Pilih Akad Fasilitas yang Diajukan" : ""}
-              InputLabelProps={{ shrink: false }}
-              onChange={handleAkad('akadDiajukan')}
-              className={classes.text}
-              defaultValue={values.akadDiajukan}
-              margin="normal"
-              fullWidth
-              select>
-              <MenuItem value={10}>Murabahah</MenuItem>
-              <MenuItem value={20}>MMQ (Musyrakah Mutanaqishah</MenuItem>
-              <MenuItem value={30}>Istishna</MenuItem>
-              <MenuItem value="LainAkad">Lainnya</MenuItem>
-            </TextField>
-            {
-              isAkad ?
-                <TextField
-                  placeholder="Lainnya"
-                  margin="normal"
-                  className={classes.text}
-                  onChange={handleChange("lainAkad")}
-                  //tambah state baru statusLainnya
-                  defaultValue={values.lainAkad}
-                />
-                : null
-            }
-          </FormControl>
-          <br />
-          <br />
-          <FormControl className={classes.formControl}>
-            <FormLabel className={classes.label}>Total Plafon yang Diajukan</FormLabel>
-            <TextField
-              placeholder="Pilih Total Plafon yang Diajukan"
-              className={classes.text}
-              onChange={handleChange('plafondDiajuka')}
-              defaultValue={values.plafondDiajuka}
-              margin="normal"
-              fullWidth
-            />
-          </FormControl>
-          <br />
-          <br />
-          <FormControl className={classes.formControl}>
-            <FormLabel className={classes.label}>Jangka Waktu Pembiayaan</FormLabel>
-            <TextField
-              placeholder="Pilih Jangka Waktu Pembiayaan"
-              className={classes.text}
-              onChange={handleChange('jangkaWaktuPembiayaan')}
-              defaultValue={values.jangkaWaktuPembiayaan}
-              margin="normal"
-              fullWidth
-            />
-          </FormControl>
-          <br />
-          <br />
-          <FormControl className={classes.formControl}>
-            <FormLabel className={classes.label}>Tujuan Pembiayaan</FormLabel>
-            <TextField
-              label={values.tujuanPembiayaan === "" ? "Pilih Tujuan Pembiayaan" : ""}
-              InputLabelProps={{ shrink: false }}
-              onChange={handlePembiayaan('tujuanPembiayaan')}
-              className={classes.text}
-              defaultValue={values.tujuanPembiayaan}
-              margin="normal"
-              fullWidth
-              select>
-              <MenuItem value="PropertiKendaraan">Pembelian Properti / Kendaraan</MenuItem>
-              <MenuItem value="Properti">Pembelian Properti</MenuItem>
-              <MenuItem value="TakeOver">Take Over Murni atau Take Over + Top UP</MenuItem>
-            </TextField>
-
             {
               isPropertiKendaraan ?
                 <>
@@ -534,10 +413,20 @@ export class FasilitasPembayaran extends Component {
                       <Grid item xs={4}>
                         <TextField
                           disabled={kelurahanTerpilih == null}
-                          placeholder="RT/RW"
-                          onChange={handleChange('pilihRTRWifPembiayaanProperti')}
-                          style={{ paddingRight: "20px", width: "170px" }}
-                          defaultValue={values.pilihRTRWifPembiayaanProperti}
+                          placeholder="RT"
+                          onChange={handleChange('pilihanRT')}
+                          style={{ paddingRight: "20px", width: "120px" }}
+                          defaultValue={values.pilihanRT}
+                          margin="normal"
+                        />
+                      </Grid>
+                      <Grid item xs={4}>
+                        <TextField
+                          disabled={kelurahanTerpilih == null}
+                          placeholder="RW"
+                          onChange={handleChange('pilihanRW')}
+                          style={{ paddingRight: "20px", width: "120px" }}
+                          defaultValue={values.pilihanRW}
                           margin="normal"
                         />
                       </Grid>
@@ -683,6 +572,112 @@ export class FasilitasPembayaran extends Component {
                 </>
                 : null
             }
+          </FormControl>
+          <br />
+          <br />
+
+          {/* Program MMQ dan Lainnya */}
+          <FormControl className={classes.formControl}>
+            <FormLabel className={classes.label}>Program</FormLabel>
+            <TextField
+              label={values.pilihProgram === "" ? "Pilih Program" : ""}
+              InputLabelProps={{ shrink: false }}
+              onChange={handleMmq('pilihProgram')}
+              className={classes.text}
+              defaultValue={values.pilihProgram}
+              margin="normal"
+              fullWidth
+              select>
+              <MenuItem value={10}>Fix & Fix</MenuItem>
+              <MenuItem value={20}>Angsuran Super Ringan</MenuItem>
+              <MenuItem value="MMQ">Special MMQ</MenuItem>
+              <MenuItem value="Lainnyaa">Lainnya</MenuItem>
+            </TextField>
+            {
+              isMmq ?
+                <TextField
+                  placeholder="Masukan Masa Fix"
+                  margin="normal"
+                  className={classes.text}
+                  onChange={handleChange("specialMmq")}
+                  //tambah state baru statusLainnya
+                  defaultValue={values.specialMmq}
+                />
+                : null
+            }
+            {
+              isLainProgram ?
+                <TextField
+                  placeholder="Lainnya"
+                  margin="normal"
+                  className={classes.text}
+                  onChange={handleChange("statusProgram")}
+                  //tambah state baru statusLainnya
+                  defaultValue={values.statusProgram}
+                />
+                : null
+            }
+          </FormControl>
+          <br />
+          <br />
+          {/* Lainnya Belum */}
+          <FormControl className={classes.formControl}>
+            <FormLabel className={classes.label}>Akad Fasilitas yang Diajukan</FormLabel>
+            <TextField
+              label={values.akadDiajukan === "" ? "Pilih Akad Fasilitas yang Diajukan" : ""}
+              InputLabelProps={{ shrink: false }}
+              onChange={handleAkad('akadDiajukan')}
+              className={classes.text}
+              defaultValue={values.akadDiajukan}
+              margin="normal"
+              fullWidth
+              select>
+              <MenuItem value={10}>Murabahah</MenuItem>
+              <MenuItem value={20}>MMQ (Musyrakah Mutanaqishah</MenuItem>
+              <MenuItem value={30}>Istishna</MenuItem>
+              <MenuItem value="LainAkad">Lainnya</MenuItem>
+            </TextField>
+            {
+              isAkad ?
+                <TextField
+                  placeholder="Lainnya"
+                  margin="normal"
+                  className={classes.text}
+                  onChange={handleChange("lainAkad")}
+                  //tambah state baru statusLainnya
+                  defaultValue={values.lainAkad}
+                />
+                : null
+            }
+          </FormControl>
+          <br />
+          <br />
+          <FormControl className={classes.formControl}>
+            <FormLabel className={classes.label}>Total Plafon yang Diajukan</FormLabel>
+            <TextField
+              placeholder="0"
+              className={classes.text}
+              onChange={handleChange('plafondDiajukan')}
+              defaultValue={values.plafondDiajukan}
+              margin="normal"
+              fullWidth
+              InputProps={{
+                startAdornment: <InputAdornment position="start">Rp. |</InputAdornment>,
+              }}
+            />
+          </FormControl>
+          <br />
+          <br />
+          <FormControl className={classes.formControl}>
+            <FormLabel className={classes.label}>Jangka Waktu Pembiayaan (Bulan)</FormLabel>
+            <TextField
+              placeholder="Pilih Jangka Waktu Pembiayaan"
+              className={classes.text}
+              onChange={handleChange('jangkaWaktuPembiayaan')}
+              defaultValue={values.jangkaWaktuPembiayaan}
+              margin="normal"
+              fullWidth
+            />
           </FormControl>
           <br />
           <br />

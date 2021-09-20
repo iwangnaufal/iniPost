@@ -8,6 +8,7 @@ import FormDataPemohon from '../Components/FormDataPemohon'
 import DataSuamiIstri from '../Components/DataSuamiIstri'
 import DataPekerjaanSuamiIstri from '../Components/DataPekerjaanSuamiIstri'
 import FormDataPekerjaanPemohon from '../Components/FormDataPekerjaanPemohon';
+import FormDataKerabat from '../Components/FormDataKerabat';
 import axios from 'axios';
 
 export class UserForm extends Component {
@@ -19,7 +20,7 @@ export class UserForm extends Component {
     skemaPengajuan: '',
     pilihProgram: '',
     akadDiajukan: '',
-    plafondDiajuka: '',
+    plafondDiajukan: '',
     jangkaWaktuPembiayaan: '',
     tujuanPembiayaan: '',
     specialMmq: '',
@@ -28,6 +29,7 @@ export class UserForm extends Component {
     uangMuka: '',
     namaProyek: '',
     kondisiBangunanifPembiayaanProperti: '',
+    kondisiBangunan: '',
     peruntukanBankSebelumnyaifTakeOver: '',
     akadFasilitas: '',
     perkiraanLunasifTakeOver: '',
@@ -45,19 +47,20 @@ export class UserForm extends Component {
     atasNamaSertifikat: '',
     nomorSertifikat: '',
     nomorSPRDeveloper: '',
-    alamatPropertiifPembiayaanProperti:'',
+    alamatPropertiifPembiayaanProperti: '',
     alamatPropertiAgunan: '',
-    pilihProvinsiifPembiayaanProperti:'',
+    pilihProvinsiifPembiayaanProperti: '',
     provinsiAgunan: '',
-    pilihKotaifPembiyaanProperti:'',
+    pilihKotaifPembiyaanProperti: '',
     kabupatenKotaAgunan: '',
-    pilihKecamatanifPembiayaanProperti:'',
+    pilihKecamatanifPembiayaanProperti: '',
     kecamatanAgunan: '',
-    pilihKelurahanifPembiayaanProperti:'',
+    pilihKelurahanifPembiayaanProperti: '',
     kelurahanAgunan: '',
-    pilihRTRWifPembiayaanProperti:'',
+    pilihanRT: '',
+    pilihanRW: '',
     rtRwAgunan: '',
-    pilihKodeposifPembiayaanProperti:'',
+    pilihKodeposifPembiayaanProperti: '',
     kodePosAgunan: '',
     //page2
     pembiayaanBankLain: '',
@@ -135,13 +138,28 @@ export class UserForm extends Component {
     emailHRD: '',
     emailAtasan: '',
     teleponAtasan: '',
+    //form Kerabat
+    namaKerabat: '',
+    alamatKerabat: '',
+    provinsiKerabat: '',
+    kotaKerabat: '',
+    kecamatanKerabat: '',
+    kelurahanKerabat: '',
+    RtKerabat: '',
+    RwKerabat: '',
+    kodePosKerabat: '',
+    telpRumah: '',
+    noHpKerabat: '',
+    hubunganDenganNasabah: '',
+    kerabatLainnya: '',
+
 
     //daftarAlamat
     daftarProvinsi: [], daftarKabupatenKota: [],
     daftarKecamatan: [], daftarKelurahan: [],
     provinsiTerpilih: null, kabupatenKotaTerpilih: null,
     kecamatanTerpilih: null, kelurahanTerpilih: null,
-    isLainnya: false, isMmq: false, isLainProgram: false, isAkad: false, isBank: false, isYa: false
+    isLainnya: false, isMmq: false, isLainProgram: false, isAkad: false, isBank: false, isYa: false, isKerabat: false,
   };
 
   // Proceed to next step
@@ -264,6 +282,15 @@ export class UserForm extends Component {
     }
   }
 
+  handleKerabat = input => e => {
+    this.setState({ [input]: e.target.value });
+    if (e.target.value === "hubunganLainnya") {
+      this.setState({ isKerabat: true })
+    } else {
+      this.setState({ isKerabat: false })
+    }
+  }
+
   getDaftarProvinsi() {
     axios.get("https://dev.farizdotid.com/api/daerahindonesia/provinsi")
       .then((response) => {
@@ -331,41 +358,46 @@ export class UserForm extends Component {
     const { step } = this.state;
     const {
       //Fasilitas Pembayaran
-      statusLainnya, statusProgram, specialMmq, skemaPengajuan, objekDibiayai, pilihProgram, plafondDiajuka, akadDiajukan, jangkaWaktuPembiayaan, tujuanPembiayaan, jenisPenjualan, namaPenjual, nomorPenjual, uangMuka, namaProyek,
+      statusLainnya, statusProgram, specialMmq, skemaPengajuan, objekDibiayai, pilihProgram, plafondDiajukan, akadDiajukan, jangkaWaktuPembiayaan, tujuanPembiayaan, jenisPenjualan, namaPenjual, nomorPenjual, uangMuka, namaProyek,
       kondisiBangunanifPembiayaanProperti, bankAsalifTakeOver, namaBankifTakeOver, peruntukanBankSebelumnyaifTakeOver, akadFasilitas, lainBank, perkiraanLunasifTakeOver, topUpifTakeOver, pembiayaanBankLain, ifYaJumlahPembiayaan, ifYaJumlahAngsuran, jenisPembiayaan, namaKreditur,
 
       //input location dan form angunan dan pemohon
       luasBangunan, statusKepemilikan, peruntukanPembiayaan, jatuhTempo, statusAgunan, atasNamaSertifikat, nomorSertifikat, nomorSPRDeveloper, alamatPropertiifPembiayaanProperti,
-      alamatPropertiAgunan, pilihProvinsiifPembiayaanProperti, provinsiAgunan, pilihKotaifPembiyaanProperti, kabupatenKotaAgunan, pilihKecamatanifPembiayaanProperti, kecamatanAgunan, pilihKelurahanifPembiayaanProperti, kelurahanAgunan,pilihRTRWifPembiayaanProperti, rtRwAgunan, pilihKodeposifPembiayaanProperti,  kodePosAgunan, namaLengkap, tempatLahir, tanggalLahir, noKTP, noNPWP, statusTempatTinggal,
+      alamatPropertiAgunan, pilihProvinsiifPembiayaanProperti, provinsiAgunan, pilihKotaifPembiyaanProperti, kabupatenKotaAgunan, pilihKecamatanifPembiayaanProperti, kecamatanAgunan, pilihKelurahanifPembiayaanProperti, kelurahanAgunan, pilihanRT, pilihanRW, rtRwAgunan, pilihKodeposifPembiayaanProperti, kodePosAgunan, namaLengkap, tempatLahir, tanggalLahir, noKTP, noNPWP, statusTempatTinggal,
       alamatKTP, provinsiKTP, kotaKabupatenKTP, kelurahanKTP, kecamatanKTP, kodeposKTP, alamatSaatIni, provinsiSaatIni, kotaKabupatenSaatIni, jenisAgunan, kelurahanSaatIni, kecamatanSaatIni, kodeposSaatIni,
-      alamatSuratMenyurat, noTeleponRumah, email, noHP, statusPerkawinan, pendidikanTerakhir, daftarProvinsi, daftarKabupatenKota, daftarKecamatan, daftarKelurahan,
+      alamatSuratMenyurat, noTeleponRumah, email, noHP, statusPerkawinan, pendidikanTerakhir, daftarProvinsi, daftarKabupatenKota, daftarKecamatan, daftarKelurahan, kondisiBangunan,
 
       //useState pada form Fasilitas Pembayaran dan data pembiayaan dimiliki
-      isLainnya, isMmq, isLainProgram, isAkad, isProperti, isPropertiKendaraan, isTakeOver, isFasilitas, isBank, isYa,
+      isLainnya, isMmq, isLainProgram, isAkad, isProperti, isPropertiKendaraan, isTakeOver, isFasilitas, isBank, isYa, isKerabat,
 
       //Data Suami Istri dan Data Pekerjaan Suami Istri
       namaSuamiIstri, tempatLahirSuamiIstri, tanggalLahirSuamiIstri, nomorKTPSuamiIstri, nomorNPWPSuamiIstri, pekerjaanSuamiIstri, lamaBekerjaSuamiIstri, jenisPekerjaanSuamiIstri,
       statusPekerjaanSuamiIstri, namaPerusahaanSuamiIstri, tempatUsahaSuamiIstri, kategoriInstansiSuamiIstri, bidangUsahaSuamiIstri, jumlahKaryawanSuamiIstri, teleponKantorSuamiIstri,
       teleponHrdSuamiIstri, jabatanSuamiIstri, pendapatanBulananSuamiIstri, pembayaranGajiSuamiIstri, emailHrdSuamiIstri, emailAtasanSuamiIstri,
+
+      //Form Kerabat
+      namaKerabat, alamatKerabat, provinsiKerabat, kotaKerabat, kecamatanKerabat, kelurahanKerabat, RtKerabat, RwKerabat, kodePosKerabat, telpRumah, noHpKerabat, hubunganDenganNasabah, kerabatLainnya,
 
       //Data Pekerjaan Pemohon
       lamaBekerja, jenisPekerjaan, statusPekerjaan, namaPerusahaan, alamatKantor, kategoriInstansi, bidangUsaha, jumlahKaryawan, teleponKantor, teleponHRD, jabatan, pendapatanPerBulan, pembayaranGaji, emailHRD, emailAtasan, teleponAtasan } = this.state;
 
     const values = {
       //Fasilitas Pembayaran
-      statusLainnya, statusProgram, specialMmq, skemaPengajuan, objekDibiayai, pilihProgram, akadDiajukan, plafondDiajuka, jangkaWaktuPembiayaan, tujuanPembiayaan, jenisPenjualan, namaPenjual, nomorPenjual, uangMuka, namaProyek,
+      statusLainnya, statusProgram, specialMmq, skemaPengajuan, objekDibiayai, pilihProgram, akadDiajukan, plafondDiajukan, jangkaWaktuPembiayaan, tujuanPembiayaan, jenisPenjualan, namaPenjual, nomorPenjual, uangMuka, namaProyek,
       kondisiBangunanifPembiayaanProperti, bankAsalifTakeOver, namaBankifTakeOver, peruntukanBankSebelumnyaifTakeOver, akadFasilitas, lainBank, perkiraanLunasifTakeOver, topUpifTakeOver, pembiayaanBankLain, ifYaJumlahPembiayaan, ifYaJumlahAngsuran, jenisPembiayaan, namaKreditur,
 
       //input location dan form angunan dan pemohon
       luasBangunan, statusKepemilikan, peruntukanPembiayaan, jatuhTempo, statusAgunan, atasNamaSertifikat, nomorSertifikat, nomorSPRDeveloper, alamatPropertiifPembiayaanProperti, alamatPropertiAgunan, pilihProvinsiifPembiayaanProperti, provinsiAgunan, pilihKotaifPembiyaanProperti, kabupatenKotaAgunan, pilihKecamatanifPembiayaanProperti, kecamatanAgunan,
-      pilihKelurahanifPembiayaanProperti, kelurahanAgunan, pilihRTRWifPembiayaanProperti, rtRwAgunan, pilihKodeposifPembiayaanProperti, kodePosAgunan, jenisAgunan, namaLengkap, tempatLahir, tanggalLahir, noKTP, noNPWP, statusTempatTinggal, alamatKTP, provinsiKTP, kotaKabupatenKTP, kelurahanKTP, kecamatanKTP, kodeposKTP,
-      alamatSaatIni, provinsiSaatIni, kotaKabupatenSaatIni, kelurahanSaatIni, kecamatanSaatIni, kodeposSaatIni, alamatSuratMenyurat, noTeleponRumah, email, noHP, statusPerkawinan, pendidikanTerakhir,
+      pilihKelurahanifPembiayaanProperti, kelurahanAgunan, pilihanRT, pilihanRW, rtRwAgunan, pilihKodeposifPembiayaanProperti, kodePosAgunan, jenisAgunan, namaLengkap, tempatLahir, tanggalLahir, noKTP, noNPWP, statusTempatTinggal, alamatKTP, provinsiKTP, kotaKabupatenKTP, kelurahanKTP, kecamatanKTP, kodeposKTP,
+      alamatSaatIni, provinsiSaatIni, kotaKabupatenSaatIni, kelurahanSaatIni, kecamatanSaatIni, kodeposSaatIni, alamatSuratMenyurat, noTeleponRumah, email, noHP, statusPerkawinan, pendidikanTerakhir, kondisiBangunan,
 
       //Data Suami Istri dan Data Pekerjaan Suami Istri
       namaSuamiIstri, tempatLahirSuamiIstri, tanggalLahirSuamiIstri, nomorKTPSuamiIstri, nomorNPWPSuamiIstri, pekerjaanSuamiIstri, lamaBekerjaSuamiIstri, jenisPekerjaanSuamiIstri,
       statusPekerjaanSuamiIstri, namaPerusahaanSuamiIstri, tempatUsahaSuamiIstri, kategoriInstansiSuamiIstri, bidangUsahaSuamiIstri, jumlahKaryawanSuamiIstri, teleponKantorSuamiIstri,
       teleponHrdSuamiIstri, jabatanSuamiIstri, pendapatanBulananSuamiIstri, pembayaranGajiSuamiIstri, emailHrdSuamiIstri, emailAtasanSuamiIstri,
 
+      //Form Kerabat
+      namaKerabat, alamatKerabat, provinsiKerabat, kotaKerabat, kecamatanKerabat, kelurahanKerabat, RtKerabat, RwKerabat, kodePosKerabat, telpRumah, noHpKerabat, hubunganDenganNasabah, kerabatLainnya,
       //Data Pekerjaan Pemohon
       lamaBekerja, jenisPekerjaan, statusPekerjaan, namaPerusahaan, alamatKantor, kategoriInstansi, bidangUsaha, jumlahKaryawan, teleponKantor, teleponHRD, jabatan, pendapatanPerBulan, pembayaranGaji, emailHRD, emailAtasan, teleponAtasan
     };
@@ -461,16 +493,39 @@ export class UserForm extends Component {
           />
         );
 
-        case 5:
-          return (
-            <FormDataPekerjaanPemohon
-              nextStep={this.nextStep}
-              handleChange={this.handleChange}
-              values={values}
+      case 5:
+        return (
+          <FormDataPekerjaanPemohon
+            nextStep={this.nextStep}
+            handleChange={this.handleChange}
+            values={values}
+          />
+        )
+
+        case 6:
+          return(
+            <FormDataKerabat
+            isKerabat={isKerabat}
+            daftarProvinsi={daftarProvinsi}
+            daftarKabupatenKota={daftarKabupatenKota}
+            daftarKecamatan={daftarKecamatan}
+            daftarKelurahan={daftarKelurahan}
+            handleProvinsi={this.onProvinsiMenuItemClick}
+            handleKabupatenKota={this.onKabupatenKotaMenuItemClick}
+            handleKecamatan={this.onKecamatanMenuItemClick}
+            handleKelurahan={this.onKelurahanMenuItemClick}
+            provinsiTerpilih={this.state.provinsiTerpilih}
+            kabupatenKotaTerpilih={this.state.kabupatenKotaTerpilih}
+            kecamatanTerpilih={this.state.kecamatanTerpilih}
+            kelurahanTerpilih={this.state.kelurahanTerpilih}
+            handleKerabat={this.handleKerabat}
+            nextStep={this.nextStep}
+            prevStep={this.prevStep}
+            handleChange={this.handleChange}
+            values={values}
             />
           )
-
-          case 6:
+      case 7:
         return (
           <DataPekerjaanSuamiIstri
             nextStep={this.nextStep}
@@ -480,7 +535,7 @@ export class UserForm extends Component {
           />
         );
 
-      case 7:
+      case 8:
         return (
           <DataPembiayaanDimiliki
             isYa={isYa}
@@ -504,7 +559,7 @@ export class UserForm extends Component {
           />
         );
 
-      case 8:
+      case 9:
         return (
           <Confirm
             nextStep={this.nextStep}
@@ -512,7 +567,7 @@ export class UserForm extends Component {
             values={values}
           />
         );
-      case 9:
+      case 10:
         return <Success />;
       default:
         (console.log('Terimakasih'))

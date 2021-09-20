@@ -1,243 +1,235 @@
-import React, { Component, useState } from 'react';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import axios from 'axios';
-import MenuItem from '@material-ui/core/MenuItem';
-import PhoneInput from "react-phone-number-input";
-import "react-phone-number-input/style.css";
-import CurrencyInput from './CurrencyInput';
-import { makeStyles } from "@material-ui/core/styles";
-import { Select, FormControl, InputLabel } from "@material-ui/core";
-import '../Styles/DataSuamiIstri.css'
-import Footer from './Footer'
+import React, { Component } from 'react';
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
+import { Dialog, AppBar, TextField, MenuItem, Button, FormControl, FormLabel, Grid, InputAdornment } from '@material-ui/core';
+import '../Styles/formStyle.css'
+import { withStyles, createStyles } from "@material-ui/core/styles";
 
+const styles = theme => createStyles({
+  root: {
+    "& .MuiFormLabel-root": {
+      // color: "red"
+    }
+  },
+  label: {
+    color: "#490E73",
+    fontSize: "12px",
+    fontWeight: 600,
+    fontFamily: "Open Sans"
+  },
+  formControl: {
+    left: 150, 
+    right: 150
+  },
+  text: {
+    width: "641px"
+  }
+});
 
-function DataPekerjaanSuamiIstri (props) {
+export class FormDataAgunan extends Component {
+  continue = e => {
+    e.preventDefault();
+    this.props.nextStep();
+  };
+  back = e => {
+    e.preventDefault();
+    this.props.prevStep();
+  };
 
-    const{nextStep,prevStep,values,handleChange} = props
-    const lanjut = e => {
-        e.preventDefault();
-        props.nextStep();
-    };
-    
-    const back = e => {
-        e.preventDefault();
-        props.prevStep();
-    };
-   
-    const useStyles = makeStyles((theme) => ({
-        formControl: {
-          margin: theme.spacing(0),
-          width: 450
-        },
-        text: {
-            width: '94%'
-        }
-    }));
-    const classes = useStyles();
+  render() {
+    const { values, handleChange, classes } = this.props;
 
     return (
-        <div id='mainPage'>
-            <div id='mainForm'>
-                <p className="judul">Data Pekerjaan Suami / Istri</p>
-                <div id='formContainer'>
-                    <div id='firstSubformContainer'>
-                        <text className="subformTitle">Lama Bekerja</text>
-                        <TextField
-                            placeholder="Masukan Lama Bekerja dalam Tahun"
-                            name='lamaBekerjaSuamiIstri'
-                            onChange={handleChange}
-                            defaultValue={values.lamaBekerjaSuamiIstri}
-                            fullWidth
-                            margin='dense'
-                        />
-                    </div>
+      <div className="mainPage">
+        <div className="mainForm">
+          <p className="judul">Data Pekerjaan Suami/Istri</p>
+          <br />
+          <br />
+          <AppBar title="Masukkan Data Pekerjaan Suami/Istri" />
+          <FormControl className={classes.formControl}>
+            <FormLabel className={classes.label}>Lama Bekerja</FormLabel>
+            <TextField
+              placeholder="Masukan Lama Bekerja dalam Tahun"
+              className={classes.text}
+              onChange={handleChange('lamaBekerja')}
+              defaultValue={values.lamaBekerja}
+              margin="normal"
+              fullWidth
+            />
+            <FormLabel className={classes.label}>Jenis Pekerjaan</FormLabel>
+            <TextField
+              placeholder="Masukan Jenis Pekerjaan"
+              onChange={handleChange('luasBangunan')}
+              className={classes.text}
+              defaultValue={values.jenisPekerjaan}
+              margin="normal"
+              fullWidth
+            />
+            <FormLabel className={classes.label}>Status Pekerjaan</FormLabel>
+            <TextField
+              placeholder="Masukan Status Pekerjaan"
+              onChange={handleChange('statusPekerjaan')}
+              className={classes.text}
+              defaultValue={values.statusPekerjaan}
+              margin="normal"
+              fullWidth
+            />
+            <FormLabel className={classes.label}>Status Pekerjaan</FormLabel>
+            <TextField
+              label={values.statusPekerjaan === "" ? "Pilih Status Pekerjaan" : ""}
+              InputLabelProps={{ shrink: false }}
+              onChange={handleChange('statusPekerjaan')}
+              className={classes.text}
+              defaultValue={values.statusPekerjaan}
+              margin="normal"
+              fullWidth
+              select>
+              <MenuItem value="Karyawan Tetap">Karyawan Tetap</MenuItem>
+              <MenuItem value="Karyawan Kontrak">Karyawan Kontrak</MenuItem>
+            </TextField>
+            <FormLabel className={classes.label}>Data Perusahaan</FormLabel>
+            <TextField
+              placeholder="Masukan Nama Perusahaan"
+              onChange={handleChange('namaPerusahaan')}
+              className={classes.text}
+              defaultValue={values.namaPerusahaan}
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              placeholder="Masukan Alamat Perusahaan"
+              onChange={handleChange('alamatKantor')}
+              className={classes.text}
+              defaultValue={values.alamatKantor}
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              placeholder="Masukan Kategori Instansi"
+              onChange={handleChange('kategoriInstansi')}
+              className={classes.text}
+              defaultValue={values.kategoriInstansi}
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              placeholder="Masukan Bidang Usaha"
+              onChange={handleChange('bidangUsaha')}
+              className={classes.text}
+              defaultValue={values.bidangUsaha}
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              placeholder="Masukan Jumlah Karyawan"
+              onChange={handleChange('jumlahKaryawan')}
+              className={classes.text}
+              defaultValue={values.jumlahKaryawan}
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              placeholder="Masukan Telepon Kantor"
+              onChange={handleChange('teleponKantor')}
+              className={classes.text}
+              defaultValue={values.teleponKantor}
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              placeholder="Masukan Telepon HRD"
+              onChange={handleChange('teleponHRD')}
+              className={classes.text}
+              defaultValue={values.teleponHRD}
+              margin="normal"
+              fullWidth
+            />
+            <FormLabel className={classes.label}>Jabatan</FormLabel>
+            <TextField
+              placeholder="Masukan Jabatan Saat Ini"
+              onChange={handleChange('jabatan')}
+              className={classes.text}
+              defaultValue={values.jabatan}
+              margin="normal"
+              fullWidth
+            />
+            <FormLabel className={classes.label}>Pendapatan Per Bulan</FormLabel>
+            <TextField
+              placeholder="0"
+              id="standard-start-adornment"
+              onChange={handleChange('pembayaranGaji')}
+              className={classes.text}
+              InputProps={{
+                startAdornment: <InputAdornment position="start">Rp. | </InputAdornment> 
+              }}
+              defaultValue={values.pembayaranGaji}
+              margin="normal"
+              fullWidth
+            />
+            <FormLabel className={classes.label}>Pembayaran Gaji</FormLabel>
+            <TextField
+              label={values.pembayaranGaji === "" ? "Masukan Cara Pembayaran Gaji" : ""}
+              InputLabelProps={{ shrink: false }}
+              onChange={handleChange('pembayaranGaji')}
+              className={classes.text}
+              defaultValue={values.pembayaranGaji}
+              margin="normal"
+              fullWidth
+              select>
+              <MenuItem value="Transfer Bank Muamalat">Transfer Bank Muamalat</MenuItem>
+              <MenuItem value="Transfer Bank Lain">Transfer Bank Lain</MenuItem>
+            </TextField>
+            <FormLabel className={classes.label}>Alamat Email HRD</FormLabel>
+            <TextField
+              placeholder="Masukan Alamat Email HRD"
+              onChange={handleChange('emailHRD')}
+              className={classes.text}
+              defaultValue={values.emailHRD}
+              margin="normal"
+              fullWidth
+            />
+            <FormLabel className={classes.label}>Alamat Email Atasan</FormLabel>
+            <TextField
+              placeholder="Masukan Alamat Email Atasan"
+              onChange={handleChange('emailAtasan')}
+              className={classes.text}
+              defaultValue={values.emailAtasan}
+              margin="normal"
+              fullWidth
+            />
+            <FormLabel className={classes.label}>No. Telepon Atasan</FormLabel>
+            <TextField
+              placeholder="xxx-xxxx-xxxx"
+              id="standard-start-adornment"
+              onChange={handleChange('teleponAtasan')}
+              className={classes.text}
+              InputProps={{
+                startAdornment: <InputAdornment position="start">+62 | </InputAdornment> 
+              }}
+              defaultValue={values.teleponAtasan}
+              margin="normal"
+              fullWidth
+            />
+          </FormControl>
+          <br />
+          <div className="footer">
+            <Button
+              className="button1"
+              variant="contained"
+            // onClick={this.back}
+            >Kembali</Button>
 
-                    <div className='subformContainer'>
-                        <text className="subformTitle">Jenis Pekerjaan</text>
-                        <TextField
-                            placeholder="Masukan Jenis Pekerjaan"
-                            name='jenisPekerjaanSuamiIstri'
-                            onChange={handleChange}
-                            defaultValue={values.jenisPekerjaanSuamiIstri}
-                            fullWidth
-                            margin='dense'
-                        />
-                    </div>
+            <Button
+              className="button2"
+              variant="contained"
+              onClick={this.continue}
+            >Lanjut</Button>
+          </div>
 
-                    <div className='subformContainer'>
-                        <text className="subformTitle">Status Pekerjaan</text>
-                        <FormControl className={classes.formControl}>
-                            <TextField
-                                label={values.statusPekerjaanSuamiIstri === "" ? "Masukan Status Pekerjaan" : ""}
-                                className={classes.text}
-                                name='statusPekerjaanSuamiIstri'
-                                InputLabelProps={{ shrink: false }}
-                                onChange={handleChange}
-                                defaultValue={values.statusPekerjaanSuamiIstri}
-                                select
-                                margin='dense'>
-                                <MenuItem value="Karyawan Tetap">Karyawan Tetap</MenuItem>
-                                <MenuItem value="Karyawan Kontrak">Karyawan Kontrak</MenuItem>
-                            </TextField>
-                        </FormControl>
-                    </div>
-
-                    <div className='subformContainer'>
-                        <text className="subformTitle">Data Perusahaan</text>
-                        <TextField
-                            placeholder="Masukan Nama Perusahaan"
-                            name='namaPerusahaanSuamiIstri'
-                            onChange={handleChange}
-                            defaultValue={values.namaPerusahaanSuamiIstri}
-                            fullWidth
-                            margin='dense'
-                        />
-                        <TextField
-                            placeholder="Masukan Kantor / Tempat Usaha"
-                            name='tempatUsahaSuamiIstri'
-                            onChange={handleChange}
-                            defaultValue={values.tempatUsahaSuamiIstri}
-                            fullWidth
-                        />
-                        <TextField
-                            placeholder="Masukan Kategori Instansi"
-                            name='kategoriInstansiSuamiIstri'
-                            onChange={handleChange}
-                            defaultValue={values.kategoriInstansiSuamiIstri}
-                            fullWidth
-                        />
-                        <TextField
-                            placeholder="Masukan Bidang Usaha"
-                            name='bidangUsahaSuamiIstri'
-                            onChange={handleChange}
-                            defaultValue={values.bidangUsahaSuamiIstri}
-                            fullWidth
-                            margin='dense'
-                        />
-                        <TextField
-                            placeholder="Masukan Jumlah Karyawan"
-                            name='jumlahKaryawanSuamiIstri'
-                            onChange={handleChange}
-                            defaultValue={values.jumlahKaryawanSuamiIstri}
-                            fullWidth
-                        />
-                        <TextField
-                            placeholder="Masukan Telepon Kantor"
-                            name='teleponKantorSuamiIstri'
-                            onChange={handleChange}
-                            defaultValue={values.teleponKantorSuamiIstri}
-                            fullWidth
-                        />
-                        <TextField
-                            placeholder="Masukan Telepon HRD"
-                            name='teleponHrdSuamiIstri'
-                            onChange={handleChange}
-                            defaultValue={values.teleponHrdSuamiIstri}
-                            fullWidth
-                        />
-                    </div>
-
-                    <div className='subformContainer'>
-                        <text className="subformTitle">Jabatan</text>
-                        <TextField
-                            placeholder="Masukan Jabatan Saat Ini"
-                            name='jabatanSuamiIstri'
-                            onChange={handleChange}
-                            defaultValue={values.jabatanSuamiIstri}
-                            fullWidth
-                            margin='dense'
-                        />
-                    </div>
-
-                    <div className='subformContainer'>
-                        <text className="subformTitle">Pendapatan per Bulan</text>
-                        <CurrencyInput
-                            id='currencyContainer'
-                            name='pendapatanBulananSuamiIstri'
-                            placeholder="Rp|0"
-                            onChange={handleChange}
-                            defaultValue={values.pendapatanBulananSuamiIstri}
-                            fullWidth
-                            margin='dense'
-                        />
-                    </div>
-
-                    <div className='subformContainer'>
-                        <text className="subformTitle">Pembayaran Gaji</text>
-                        <FormControl className={classes.formControl}>
-                            <TextField
-                                label={values.pembayaranGajiSuamiIstri === "" ? "Masukan Cara Pembayaran Gaji" : ""}
-                                className={classes.text}
-                                name='pembayaranGajiuamiIstri'
-                                InputLabelProps={{ shrink: false }}
-                                onChange={handleChange}
-                                defaultValue={values.pembayaranGajiSuamiIstri}
-                                select
-                                margin='dense'>
-                                <MenuItem value="Transfer Bank Muamalat">Transfer Bank Muamalat</MenuItem>
-                                <MenuItem value="Transfer Bank Lain">Transfer Bank Lain</MenuItem>
-                            </TextField>
-                        </FormControl>
-                    </div>
-
-                    <div className='subformContainer'>
-                        <text className="subformTitle">Alamat Email HRD</text>
-                        <TextField
-                            placeholder="Masukan Alamat Email HRD"
-                            name='emailHrdSuamiIstri'
-                            onChange={handleChange}
-                            defaultValue={values.emailHrdSuamiIstri}
-                            fullWidth
-                            margin='dense'
-                        />
-                    </div>
-
-                    <div className='subformContainer'>
-                        <text className="subformTitle">Alamat Email Atasan</text>
-                        <TextField
-                            placeholder="Masukan Alamat Email Atasan"
-                            name='emailAtasanSuamiIstri'
-                            onChange={handleChange}
-                            defaultValue={values.emailAtasanSuamiIstri}
-                            fullWidth
-                            margin='dense'
-                        />
-                    </div>
-
-                    <div className='subformContainer'>
-                        <div id='phoneTitleContainer'>
-                            <text className="subformTitle">No. Telepon Atasan</text>
-                        </div>
-                        <PhoneInput
-                            international
-                            defaultCountry="ID"
-                            name='teleponAtasanSuamiIstri'
-                            onChange={handleChange}
-                            defaultValue={values.teleponAtasanSuamiIstri}
-                            fullWidth
-                            margin='dense'
-                        />
-                    </div>
-                </div>
-                <footer id='formButton'>
-                    <Button
-                        id='bckBtn'
-                        color="secondary"
-                        variant="contained"
-                        onClick={back}
-                    >Kembali</Button>
-
-                    <Button
-                        id='nxtBtn'
-                        color="primary"
-                        variant="contained"
-                        onClick={lanjut}
-                    >Lanjut</Button>
-                </footer>
-            </div>
         </div>
+
+      </div>
     );
+  }
 }
 
-export default DataPekerjaanSuamiIstri
+export default withStyles(styles)(FormDataAgunan);
