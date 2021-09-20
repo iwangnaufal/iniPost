@@ -1,0 +1,18 @@
+.header {
+    align-items: center;
+    display: flex;
+    margin: 0 auto;
+    height: 120px;
+    background-color:#fff;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    top: 0;
+    margin-bottom: 3px;
+}
+
+.logoHeader {
+    width: 239px;
+    height: 73px;
+    /* top: 27px */
+    display: block;
+    margin: 0 auto;
+}
