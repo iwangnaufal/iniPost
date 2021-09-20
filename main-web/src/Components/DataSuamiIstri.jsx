@@ -1,156 +1,197 @@
-import React, { Component, useState } from 'react';
-import Dialog from '@material-ui/core/Dialog';
-import AppBar from '@material-ui/core/AppBar';
+import React, { Component } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import axios from 'axios';
-import MenuItem from '@material-ui/core/MenuItem';
-import PhoneInput from "react-phone-number-input";
-import "react-phone-number-input/style.css";
-import '../Styles/DataSuamiIstri.css'
+import { Switch, AppBar, TextField, MenuItem, Button, FormControl, FormLabel, Grid, FormControlLabel, Typography } from '@material-ui/core';
+import { purple } from '@material-ui/core/colors';
+import { DatePicker } from "@material-ui/pickers";
+import clsx from 'clsx';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import '../Styles/formStyle.css'
+import { withStyles, createStyles } from "@material-ui/core/styles";
 
+const styles = theme => createStyles({
+  root: {
+    "& .MuiFormLabel-root": {
+      // color: "red"
+    }
+  },
+  label: {
+    color: "#490E73",
+    fontSize: "14px",
+    fontWeight: 600,
+    fontFamily: "Open Sans"
+  },
+  formControl: {
+    left: 150,
+    right: 150
+  },
+  text: {
+    width: "641px"
+  }
+});
 
+const PurpleSwitch = withStyles({
+  switchBase: {
+    color: purple[300],
+    '&$checked': {
+      color: purple[500],
+    },
+    '&$checked + $track': {
+      backgroundColor: purple[500],
+    },
+  },
+  checked: {},
+  track: {},
+})(Switch);
 
-function DataSuamiIstri (props) {
-    const {nextStep,prevStep,values,handleChange} = props
-    const lanjut = e => {
-        e.preventDefault();
-        nextStep();
-        console.log('nama suami/istri: ',values.namaSuamiIstri)
-        console.log('tempat lahir suami/istri: ',values.tempatLahirSuamiIstri)
-        console.log('tanggal lahir suami/istri: ',values.tanggalLahirSuamiIstri)
-        console.log('nomor ktp suami/istri: ',values.nomorKTPSuamiIstri)
-        console.log('nomor npwp suami/istri: ',values.nomorNPWPSuamiIstri)
-        console.log('pekerjaan suami/istri: ',values.pekerjaanSuamiIstri)
-        console.log('nomor telpon suami/istri: ',values.nomorTelponSuamiIstri)
-    };
-    
-    const back = e => {
-        e.preventDefault();
-        prevStep();
-    };
-    
+export class DataPembiayaanDimiliki extends Component {
+  state = { checkedA: false, isYa: false }
+
+  handleSwitch = (event) => {
+    this.setState({ ...this.state, [event.target.name]: event.target.checked })
+
+  }
+  handleKeuangan = (event) => {
+    if (event.target.value === "jikaYa") {
+      this.setState({ isYa: true })
+      this.props.handleChange("pembiayaanBankLain")
+    } else {
+      this.setState({ isYa: false })
+      this.props.handleChange("pembiayaanBankLain")
+    }
+  }
+
+  // Handle fields change
+  handleChange = input => e => {
+    this.setState({ [input]: e.target.value });
+  };
+
+  continue = e => {
+    e.preventDefault();
+    this.props.nextStep();
+  };
+
+  back = e => {
+    e.preventDefault();
+    this.props.prevStep();
+  };
+
+  render() {
+    const { values, handleChange, classes, handleKeuangan, isYa } = this.props;
+
     return (
-        <div id='mainPage'>
-            <div id='mainForm'>
-                <p class="judul">Data Suami / Istri</p>
-                <div id='formContainer'>
-                    <div id='firstSubformContainer'>
-                        <text class="subformTitle">Nama Lengkap Sesuai KTP</text>
-                        <TextField class="subformTitle"
-                            placeholder="Masukan Nama Lengkap Sesuai KTP"
-                            name='namaSuamiIstri'
-                            onChange={handleChange}
-                            defaultValue={values.namaSuamiIstri}
-                            fullWidth
-                            margin='dense'
-                        />
-                        {/* {console.log('nama suami/istri: ',state.namaSuamiIstri)} */}
-                    </div>
+      <div className="mainPage">
+        <div className="mainForm">
+          <p className="judul">Data Suami/Istri</p>
+          <br />
+          <br />
+          <FormControl className={classes.formControl}>
+            <FormLabel className={classes.label}>Nama Lengkap Sesuai KTP</FormLabel>
+            <TextField
+              label={values.pembiayaanBankLain === "" ? "Pilih" : ""}
+              InputLabelProps={{ shrink: false }}
+              onChange={handleKeuangan('pembiayaanBankLain')}
+              className={classes.text}
+              defaultValue={values.pembiayaanBankLain}
+              margin="normal"
+              fullWidth
+              select>
+              <MenuItem value="jikaYa" >Ya</MenuItem>
+              <MenuItem value={10}>Tidak</MenuItem>
+            </TextField>
+            {
+              isYa ?
+                <>
+                  <FormControl >
+                    <FormLabel className={classes.label}>Pembiayaan dengan Outstanding terbesar</FormLabel>
+                    <TextField
+                      placeholder="Masukan Jumlah Pembiayaan"
+                      className={classes.text}
+                      onChange={handleChange('ifYaJumlahPembiayaan')}
+                      defaultValue={values.ifYaJumlahPembiayaan}
+                      margin="normal"
+                      fullWidth
+                      className={clsx(classes.margin, classes.textField)}
+                      InputProps={{
+                        startAdornment: <InputAdornment position="start">Rp. |</InputAdornment>,
+                      }}
+                    />
+                  </FormControl>
+                  <FormControl >
+                    <TextField
+                      placeholder="Masukan Jumlah Angsuran"
+                      className={classes.text}
+                      onChange={handleChange('ifYaJumlahAngsuran')}
+                      defaultValue={values.ifYaJumlahAngsuran}
+                      margin="normal"
+                      fullWidth
+                      className={clsx(classes.margin, classes.textField)}
+                      InputProps={{
+                        startAdornment: <InputAdornment position="start">Rp. |</InputAdornment>,
+                      }}
+                    />
+                  </FormControl>
+                  <TextField
+                    placeholder="Masukan Jenis Pembiayaan"
+                    className={classes.text}
+                    onChange={handleChange('jenisPembiayaan')}
+                    defaultValue={values.jenisPembiayaan}
+                    margin="normal"
+                    fullWidth
+                  />
+                  <TextField
+                    placeholder="Masukan Nama Kreditur"
+                    className={classes.text}
+                    onChange={handleChange('namaKreditur')}
+                    defaultValue={values.namaKreditur}
+                    margin="normal"
+                    fullWidth
+                  />
 
-                    <div class='subformContainer'>
-                        <text class="subformTitle">Tempat/Tanggal Lahir</text>
-                        <TextField 
-                            multiline
-                            name='tempatLahirSuamiIstri'
-                            placeholder="Masukan Tempat/Tanggal Lahir"
-                            onChange={handleChange}
-                            defaultValue={values.tempatLahirSuamiIstri}
-                            fullWidth
-                            margin='dense'
-                        /> 
-                        {/* {console.log ('tempat lahir :',state.tempatLahirSuamiIstri)} */}
-                        <TextField
-                            id="date"
-                            helperText="Masukan Tanggal Lahir Suami/Istri"
-                            name='tanggalLahirSuamiIstri'
-                            onChange={handleChange}
-                            // onChange={(e) => setState(e.target.value)}
-                            defaultValue={values.tanggalLahirSuamiIstri}
-                            type="date"
-                            margin='dense'
-                        />
-                        {/* {console.log('tangal lahir: ',state.tanggalLahirSuamiIstri)} */}
-                    </div>
+                </>
+                : null
+            }
+          </FormControl>
+          <br />
+          <br />
+          <FormControl className={classes.formControl}>
+            <FormLabel className={classes.label}>Jatuh Tempo</FormLabel>
+            <TextField
+               type="date"
+               format="YYYY-MM-DD"
+               id="start_date"
+               name="start_date"
+               placeholder="Start Date"
+               value={this.state.start_date}
+               onChange={this.onChangeHandle}
+               className={classes.text}
+               onChange={handleChange('jatuhTempo')}
+               defaultValue={values.jatuhTempo}
+               margin="normal"
+               fullWidth
+            />
+          </FormControl>
 
-                    <div class='subformContainer'>
-                        <text class="subformTitle">Nomor KTP</text>
-                        <TextField
-                            placeholder="Masukan 16 digit Nomor KTP"
-                            name='nomorKTPSuamiIstri'
-                            onChange={handleChange}
-                            // onChange={(e) => setState(e.target.value)}
-                            defaultValue={values.nomorKTPSuamiIstri}
-                            fullWidth
-                            margin='dense'
-                        />
-                        {/* {console.log('nomor ktp: ',state.nomorKTPSuamiIstri)} */}
-                    </div>
+          <br />
+          <br />
+          <div className="footer">
+            <Button
+              className="button1"
+              variant="contained"
+              onClick={this.back}
+            >Periksa Kembali</Button>
 
-                    <div class='subformContainer'>
-                        <text class="subformTitle">Nomor NPWP</text>
-                        <TextField
-                            placeholder="Masukan Nomor NPWP"
-                            name='nomorNPWPSuamiIstri'
-                            onChange={handleChange}
-                            // onChange={(e) => setState(e.target.value)}
-                            defaultValue={values.nomorNPWPSuamiIstri}
-                            fullWidth
-                            margin='dense'
-                        />
-                        {/* {console.log('nomor npwp: ',state.nomorNPWPSuamiIstri)} */}
-                    </div>
+            <Button
+              className="button2"
+              variant="contained"
+              onClick={this.continue}
+            >Lanjut</Button>
+          </div>
 
-                    <div class='subformContainer'>
-                        <text class="subformTitle">Pekerjaan</text>
-                        <TextField
-                            placeholder="Masukan Pekerjaan Saat Ini"
-                            name='pekerjaanSuamiIstri'
-                            onChange={handleChange}
-                            // onChange={(pekerjaanSuamiIstri) => setState(pekerjaanSuamiIstri.target.value)}
-                            defaultValue={values.pekerjaanSuamiIstri}
-                            fullWidth
-                            margin='dense'
-                        />
-                        {/* {console.log('pekerjaan: ',state.pekerjaanSuamiIstri)} */}
-                    </div>
-
-                    <div class='subformContainer'>
-                        <div id='phoneTitleContainer'>
-                            <text class="subformTitle">No. Handphone</text>
-                        </div>
-                        <PhoneInput
-                            international
-                            defaultCountry="ID"
-                            name='nomorTelponSuamiIstri'
-                            onChange={handleChange}
-                            // onChange={(e) => setState(e.target.value)}
-                            value={values.nomorTelponSuamiIstri}
-                            margin='dense'
-                        />
-                        {/* {console.log('no.tlpn: ',state.nomorTelponSuamiIstri)} */}
-                    </div>
-                </div>
-                <footer id='formButton'>
-                    <Button
-                        id='bckBtn'
-                        color="secondary"
-                        variant="contained"
-                        onClick={back}
-                    >Kembali</Button>
-
-                    <Button
-                        id='nxtBtn'
-                        color="primary"
-                        variant="contained"
-                        onClick={lanjut}
-                    >Lanjut</Button>
-                </footer>
-            </div>
         </div>
-            
+
+      </div>
     );
+  }
 }
 
-export default DataSuamiIstri
+export default withStyles(styles)(DataPembiayaanDimiliki);

@@ -22,7 +22,7 @@ const styles = theme => createStyles({
   formControl: {
     left: 150,
     right: 150
-    
+
   },
   text: {
     width: "641px",
@@ -203,11 +203,11 @@ export class FasilitasPembayaran extends Component {
               margin="normal"
               fullWidth
               select>
-              <MenuItem value={10}>Pembelian Properti</MenuItem>
-              <MenuItem value={20}>Top Up</MenuItem>
-              <MenuItem value="PropertiKendaraan">Take Over</MenuItem>
-              <MenuItem value="Properti">Take Over + Top Up</MenuItem>
-              <MenuItem value="TakeOver">Pembiayaan Konsumsi Beragun Properti</MenuItem>
+              <MenuItem value="Properti">Pembelian Properti</MenuItem>
+              <MenuItem value={10}>Top Up</MenuItem>
+              <MenuItem value={20}>Take Over</MenuItem>
+              <MenuItem value="TakeOver">Take Over + Top Up</MenuItem>
+              <MenuItem value="PropertiKendaraan">Pembiayaan Konsumsi Beragun Properti</MenuItem>
             </TextField>
             {
               isPropertiKendaraan ?
@@ -292,6 +292,80 @@ export class FasilitasPembayaran extends Component {
             {
               isProperti ?
                 <>
+                  <FormControl>
+                    <FormLabel className={classes.label}>Jenis Penjual</FormLabel>
+                    <TextField
+                      className={classes.text}
+                      label={values.jenisPenjualan === "" ? "Pilih Jenis Penjual" : ""}
+                      onChange={handleChange('jenisPenjualan')}
+                      defaultValue={values.jenisPenjualan}
+                      margin="normal"
+                      InputLabelProps={{ shrink: false }}
+                      select>
+                      <MenuItem value={10}>Developer Rekanan</MenuItem>
+                      <MenuItem value={20}>Developer Non Rekanan</MenuItem>
+                      <MenuItem value={30}>Non Developer</MenuItem>
+                    </TextField>
+                  </FormControl>
+
+                  <FormControl>
+                    <FormLabel className={classes.label}>Nama Penjual</FormLabel>
+                    <TextField
+                      placeholder="Pilih Nama Penjual"
+                      className={classes.text}
+                      onChange={handleChange('namaPenjual')}
+                      defaultValue={values.namaPenjual}
+                      margin="normal"
+                      fullWidth
+                    />
+                  </FormControl>
+
+                  <FormControl >
+                    <FormLabel className={classes.label}>Harga Penawaran Penjual / Nilai SPR*</FormLabel>
+                    <TextField
+                      placeholder="0"
+                      className={classes.text}
+                      onChange={handleChange('nomorSPRDeveloper')}
+                      defaultValue={values.nomorSPRDeveloper}
+                      margin="normal"
+                      fullWidth
+                      className={clsx(classes.margin, classes.textField)}
+                      InputProps={{
+                        startAdornment: <InputAdornment position="start">Rp. |</InputAdornment>,
+                      }}
+                      helperText="*) Surat Pemesanan Rumah"
+                    />
+                  </FormControl>
+                  <FormControl >
+                    <FormLabel className={classes.label}>No Telp Penjual</FormLabel>
+                    <TextField
+                      placeholder="xxx-xxxx-xxxx"
+                      className={classes.text}
+                      onChange={handleChange('nomorPenjual')}
+                      defaultValue={values.nomorPenjual}
+                      margin="normal"
+                      fullWidth
+                      className={clsx(classes.margin, classes.textField)}
+                      InputProps={{
+                        startAdornment: <InputAdornment position="start">+62 |</InputAdornment>,
+                      }}
+                    />
+                  </FormControl>
+                  <FormControl >
+                    <FormLabel className={classes.label}>Uang Muka</FormLabel>
+                    <TextField
+                      placeholder="0"
+                      className={classes.text}
+                      onChange={handleChange('uangMuka')}
+                      defaultValue={values.uangMuka}
+                      margin="normal"
+                      fullWidth
+                      className={clsx(classes.margin, classes.textField)}
+                      InputProps={{
+                        startAdornment: <InputAdornment position="start">Rp. |</InputAdornment>,
+                      }}
+                    />
+                  </FormControl>
                   <FormControl id="pemisah">
                     <FormLabel className={classes.label}>Nama Proyek (jika penjual developer)</FormLabel>
                     <TextField
@@ -319,7 +393,7 @@ export class FasilitasPembayaran extends Component {
                   </FormControl>
 
                   <FormControl >
-                    <FormLabel className={classes.label}>Alamat Agunan</FormLabel>
+                    <FormLabel className={classes.label}>Alamat Properti</FormLabel>
                     <TextField
                       placeholder="Masukkan Alamat Properti"
                       onChange={handleChange('alamatPropertiifPembiayaanProperti')}
