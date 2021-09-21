@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
-import { Dialog, AppBar, TextField, MenuItem, Button, FormControl, FormLabel, Grid, InputAdornment } from '@material-ui/core';
+import { Switch, AppBar, TextField, MenuItem, Button, FormControl, FormLabel, Grid, FormControlLabel, Typography } from '@material-ui/core';
+import { purple } from '@material-ui/core/colors';
+import { DatePicker } from "@material-ui/pickers";
 import '../Styles/formStyle.css'
 import { withStyles, createStyles } from "@material-ui/core/styles";
+import clsx from 'clsx';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 const styles = theme => createStyles({
   root: {
@@ -12,12 +16,12 @@ const styles = theme => createStyles({
   },
   label: {
     color: "#490E73",
-    fontSize: "12px",
+    fontSize: "14px",
     fontWeight: 600,
     fontFamily: "Open Sans"
   },
   formControl: {
-    left: 150, 
+    left: 150,
     right: 150
   },
   text: {
@@ -25,18 +29,59 @@ const styles = theme => createStyles({
   }
 });
 
-export class FormDataAgunan extends Component {
+const PurpleSwitch = withStyles({
+  switchBase: {
+    color: purple[300],
+    '&$checked': {
+      color: purple[500],
+    },
+    '&$checked + $track': {
+      backgroundColor: purple[500],
+    },
+  },
+  checked: {},
+  track: {},
+})(Switch);
+
+export class FormDataPemohon extends Component {
+  state = { checkedA: false, isPekerjaanLainnya: false, isKategoriPekerjaan:false }
+
+  handleSwitch = (event) => {
+    this.setState({ ...this.state, [event.target.name]: event.target.checked })
+    this.props.handleAlamatSama();
+  }
+
+  handlePekerjaanLain = (event) => {
+    if (event.target.value === "lainnyaPekerjaan") {
+      this.setState({ isPekerjaanLainnya: true })
+      this.props.handleChange("jenisPekerjaanSuamiIstri")
+    } else {
+      this.setState({ isPekerjaanLainnya: false })
+      this.props.handleChange("jenisPekerjaanSuamiIstri")
+    }
+  }
+
+  handlekategoriInstansiPekerjaanSuami = (event) => {
+    if (event.target.value === "lainnyaKategori") {
+      this.setState({ isKategoriPekerjaan: true })
+      this.props.handleChange("kategoriInstansiPekerjaanSuami")
+    } else {
+      this.setState({ isKategoriPekerjaan: false })
+      this.props.handleChange("kategoriInstansiPekerjaanSuami")
+    }
+  }
   continue = e => {
     e.preventDefault();
     this.props.nextStep();
   };
+
   back = e => {
     e.preventDefault();
     this.props.prevStep();
   };
 
   render() {
-    const { values, handleChange, classes } = this.props;
+    const { values, handleChange, handlePekerjaanLain,handlekategoriInstansiPekerjaanSuami, classes, isPekerjaanLainnya, isKategoriPekerjaan } = this.props;
 
     return (
       <div className="mainPage">
@@ -44,179 +89,153 @@ export class FormDataAgunan extends Component {
           <p className="judul">Data Pekerjaan Suami/Istri</p>
           <br />
           <br />
-          <AppBar title="Masukkan Data Pekerjaan Suami/Istri" />
+          <AppBar title="Masukkan Data Pengguna" />
           <FormControl className={classes.formControl}>
             <FormLabel className={classes.label}>Lama Bekerja</FormLabel>
-            <TextField
-              placeholder="Masukan Lama Bekerja dalam Tahun"
-              className={classes.text}
-              onChange={handleChange('lamaBekerja')}
-              defaultValue={values.lamaBekerja}
-              margin="normal"
-              fullWidth
-            />
+            <Grid container spacing={24}>
+              <Grid item xs={4}>
+                <TextField
+                  placeholder="Tahun"
+                  onChange={handleChange('tahunLamaBekerja')}
+                  style={{ paddingRight: "20px", width: "170px" }}
+                  defaultValue={values.tahunLamaBekerja}
+                  margin="normal"
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  placeholder="Bulan"
+                  onChange={handleChange('bulanLamaBekerja')}
+                  style={{ paddingRight: "20px", width: "170px" }}
+                  defaultValue={values.bulanLamaBekerja}
+                  margin="normal"
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  placeholder="Jumlah Karyawan"
+                  onChange={handleChange('jumlahKaryawanPekerjaanSuami')}
+                  style={{ paddingRight: "20px", width: "170px" }}
+                  defaultValue={values.jumlahKaryawanPekerjaanSuami}
+                  margin="normal"
+                />
+              </Grid>
+            </Grid>
+          </FormControl>
+          <br />
+          <br />
+          <FormControl className={classes.formControl}>
             <FormLabel className={classes.label}>Jenis Pekerjaan</FormLabel>
             <TextField
-              placeholder="Masukan Jenis Pekerjaan"
-              onChange={handleChange('luasBangunan')}
+              label={values.jenisPekerjaanSuamiIstri === "" ? "Pilih Jenis Pekerjaan" : ""}
               className={classes.text}
-              defaultValue={values.jenisPekerjaan}
-              margin="normal"
-              fullWidth
-            />
-            <FormLabel className={classes.label}>Status Pekerjaan</FormLabel>
-            <TextField
-              placeholder="Masukan Status Pekerjaan"
-              onChange={handleChange('statusPekerjaan')}
-              className={classes.text}
-              defaultValue={values.statusPekerjaan}
-              margin="normal"
-              fullWidth
-            />
-            <FormLabel className={classes.label}>Status Pekerjaan</FormLabel>
-            <TextField
-              label={values.statusPekerjaan === "" ? "Pilih Status Pekerjaan" : ""}
               InputLabelProps={{ shrink: false }}
-              onChange={handleChange('statusPekerjaan')}
-              className={classes.text}
-              defaultValue={values.statusPekerjaan}
+              onChange={handlePekerjaanLain('jenisPekerjaanSuamiIstri')}
+              defaultValue={values.jenisPekerjaanSuamiIstri}
               margin="normal"
               fullWidth
               select>
-              <MenuItem value="Karyawan Tetap">Karyawan Tetap</MenuItem>
-              <MenuItem value="Karyawan Kontrak">Karyawan Kontrak</MenuItem>
+              <MenuItem value={10}>Karyawan</MenuItem>
+              <MenuItem value={20}>Profesional</MenuItem>
+              <MenuItem value={30}>Wiraswasta</MenuItem>
+              <MenuItem value={40}>Pegawai Negeri(PNS)</MenuItem>
+              <MenuItem value={50}>Pegawai Swasta</MenuItem>
+              <MenuItem value="lainnyaPekerjaan">Lainnya</MenuItem>
             </TextField>
-            <FormLabel className={classes.label}>Data Perusahaan</FormLabel>
+            {
+              isPekerjaanLainnya ?
+                <TextField
+                  placeholder="Lainnya"
+                  margin="normal"
+                  className={classes.text}
+                  onChange={handleChange("pekerjaanLainnya")}
+                  //tambah state baru statusLainnya
+                  defaultValue={values.pekerjaanLainnya}
+                />
+                : null
+            }
+          </FormControl>
+          <br />
+          <br />
+          <FormControl className={classes.formControl}>
+            <FormLabel className={classes.label}>Nama Perusahaan</FormLabel>
             <TextField
-              placeholder="Masukan Nama Perusahaan"
-              onChange={handleChange('namaPerusahaan')}
               className={classes.text}
-              defaultValue={values.namaPerusahaan}
+              placeholder="Masukkan Nama Perusahaan "
+              onChange={handleChange('namaPerusahaanSuamiIstri')}
+              defaultValue={values.namaPerusahaanSuamiIstri}
               margin="normal"
-              fullWidth
-            />
-            <TextField
-              placeholder="Masukan Alamat Perusahaan"
-              onChange={handleChange('alamatKantor')}
-              className={classes.text}
-              defaultValue={values.alamatKantor}
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              placeholder="Masukan Kategori Instansi"
-              onChange={handleChange('kategoriInstansi')}
-              className={classes.text}
-              defaultValue={values.kategoriInstansi}
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              placeholder="Masukan Bidang Usaha"
-              onChange={handleChange('bidangUsaha')}
-              className={classes.text}
-              defaultValue={values.bidangUsaha}
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              placeholder="Masukan Jumlah Karyawan"
-              onChange={handleChange('jumlahKaryawan')}
-              className={classes.text}
-              defaultValue={values.jumlahKaryawan}
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              placeholder="Masukan Telepon Kantor"
-              onChange={handleChange('teleponKantor')}
-              className={classes.text}
-              defaultValue={values.teleponKantor}
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              placeholder="Masukan Telepon HRD"
-              onChange={handleChange('teleponHRD')}
-              className={classes.text}
-              defaultValue={values.teleponHRD}
-              margin="normal"
-              fullWidth
-            />
-            <FormLabel className={classes.label}>Jabatan</FormLabel>
-            <TextField
-              placeholder="Masukan Jabatan Saat Ini"
-              onChange={handleChange('jabatan')}
-              className={classes.text}
-              defaultValue={values.jabatan}
-              margin="normal"
-              fullWidth
-            />
-            <FormLabel className={classes.label}>Pendapatan Per Bulan</FormLabel>
-            <TextField
-              placeholder="0"
-              id="standard-start-adornment"
-              onChange={handleChange('pembayaranGaji')}
-              className={classes.text}
-              InputProps={{
-                startAdornment: <InputAdornment position="start">Rp. | </InputAdornment> 
-              }}
-              defaultValue={values.pembayaranGaji}
-              margin="normal"
-              fullWidth
-            />
-            <FormLabel className={classes.label}>Pembayaran Gaji</FormLabel>
-            <TextField
-              label={values.pembayaranGaji === "" ? "Masukan Cara Pembayaran Gaji" : ""}
-              InputLabelProps={{ shrink: false }}
-              onChange={handleChange('pembayaranGaji')}
-              className={classes.text}
-              defaultValue={values.pembayaranGaji}
-              margin="normal"
-              fullWidth
-              select>
-              <MenuItem value="Transfer Bank Muamalat">Transfer Bank Muamalat</MenuItem>
-              <MenuItem value="Transfer Bank Lain">Transfer Bank Lain</MenuItem>
-            </TextField>
-            <FormLabel className={classes.label}>Alamat Email HRD</FormLabel>
-            <TextField
-              placeholder="Masukan Alamat Email HRD"
-              onChange={handleChange('emailHRD')}
-              className={classes.text}
-              defaultValue={values.emailHRD}
-              margin="normal"
-              fullWidth
-            />
-            <FormLabel className={classes.label}>Alamat Email Atasan</FormLabel>
-            <TextField
-              placeholder="Masukan Alamat Email Atasan"
-              onChange={handleChange('emailAtasan')}
-              className={classes.text}
-              defaultValue={values.emailAtasan}
-              margin="normal"
-              fullWidth
-            />
-            <FormLabel className={classes.label}>No. Telepon Atasan</FormLabel>
-            <TextField
-              placeholder="xxx-xxxx-xxxx"
-              id="standard-start-adornment"
-              onChange={handleChange('teleponAtasan')}
-              className={classes.text}
-              InputProps={{
-                startAdornment: <InputAdornment position="start">+62 | </InputAdornment> 
-              }}
-              defaultValue={values.teleponAtasan}
-              margin="normal"
-              fullWidth
             />
           </FormControl>
+          <br />
+          <br />
+          <FormControl className={classes.formControl}>
+            <FormLabel className={classes.label}>Jabatan</FormLabel>
+            <TextField
+              className={classes.text}
+              placeholder="Masukkan Jabatan "
+              onChange={handleChange('jabatanSuamiIstri')}
+              defaultValue={values.jabatanSuamiIstri}
+              margin="normal"
+            />
+          </FormControl>
+          <br />
+          <br />
+          <FormControl className={classes.formControl}>
+            <FormLabel className={classes.label}>Kategori Instansi</FormLabel>
+            <TextField
+              label={values.kategoriInstansiPekerjaanSuami === "" ? "Pilih Kategori Instansi" : ""}
+              className={classes.text}
+              InputLabelProps={{ shrink: false }}
+              onChange={handlekategoriInstansiPekerjaanSuami('kategoriInstansiPekerjaanSuami')}
+              defaultValue={values.kategoriInstansiPekerjaanSuami}
+              margin="normal"
+              fullWidth
+              select>
+              <MenuItem value={10}>Pemerintah</MenuItem>
+              <MenuItem value={20}>BUMN</MenuItem>
+              <MenuItem value={30}>TNI/Polri</MenuItem>
+              <MenuItem value={40}>Wiraswasta/Profesional</MenuItem>
+              <MenuItem value={50}>Swasta Asing</MenuItem>
+              <MenuItem value={60}>Swasta Nasional</MenuItem>
+              <MenuItem value="lainnyaKategori">Lainnya</MenuItem>
+            </TextField>
+            {
+              isKategoriPekerjaan ?
+                <TextField
+                  placeholder="Lainnya"
+                  margin="normal"
+                  className={classes.text}
+                  onChange={handleChange("lainKategoriPekerjaan")}
+                  defaultValue={values.lainKategoriPekerjaan}
+                />
+                : null
+            }
+          </FormControl>
+          <br />
+          <br />
+          <FormControl className={classes.formControl}>
+            <FormLabel className={classes.label}>Pendapatan Per Bulan</FormLabel>
+            <TextField
+              className={classes.text}
+              placeholder="0"
+              onChange={handleChange('pendapatanPerbulan')}
+              defaultValue={values.pendapatanPerbulan}
+              margin="normal"
+              fullWidth
+              InputProps={{
+                startAdornment: <InputAdornment position="start">Rp. |</InputAdornment>,
+              }}
+            />
+          </FormControl>
+          <br />
           <br />
           <div className="footer">
             <Button
               className="button1"
               variant="contained"
-            // onClick={this.back}
-            >Kembali</Button>
+              onClick={this.back}
+            >Periksa Kembali</Button>
 
             <Button
               className="button2"
@@ -226,10 +245,9 @@ export class FormDataAgunan extends Component {
           </div>
 
         </div>
-
       </div>
     );
   }
 }
 
-export default withStyles(styles)(FormDataAgunan);
+export default withStyles(styles)(FormDataPemohon);

@@ -105,7 +105,6 @@ export class UserForm extends Component {
     pekerjaanSuamiIstri: '',
     // Page 6
     lamaBekerjaSuamiIstri: '',
-    jenisPekerjaanSuamiIstri: '',
     statusPekerjaanSuamiIstri: '',
     namaPerusahaanSuamiIstri: '',
     tempatUsahaSuamiIstri: '',
@@ -114,7 +113,6 @@ export class UserForm extends Component {
     jumlahKaryawanSuamiIstri: '',
     teleponKantorSuamiIstri: '',
     teleponHrdSuamiIstri: '',
-    jabatanSuamiIstri: '',
     pendapatanBulananSuamiIstri: '',
     pembayaranGajiSuamiIstri: '',
     emailHrdSuamiIstri: '',
@@ -153,13 +151,25 @@ export class UserForm extends Component {
     hubunganDenganNasabah: '',
     kerabatLainnya: '',
 
+    //form pekerjaan suami istri
+    tahunLamaBekerja: '',
+    bulanLamaBekerja: '',
+    jumlahKaryawanPekerjaanSuami: '',
+    pekerjaanLainnya: '',
+    namaPerusahaan: '',
+    jabatanSuamiIstri: '',
+    kategoriInstansiPekerjaanSuami: '',
+    lainKategoriPekerjaan: '',
+    pendapatanPerbulan: '',
+    jenisPekerjaanSuamiIstri:'',
 
     //daftarAlamat
     daftarProvinsi: [], daftarKabupatenKota: [],
     daftarKecamatan: [], daftarKelurahan: [],
     provinsiTerpilih: null, kabupatenKotaTerpilih: null,
     kecamatanTerpilih: null, kelurahanTerpilih: null,
-    isLainnya: false, isMmq: false, isLainProgram: false, isAkad: false, isBank: false, isYa: false, isKerabat: false,
+    //semua fungsi
+    isLainnya: false, isMmq: false, isLainProgram: false, isAkad: false, isBank: false, isYa: false, isKerabat: false, isPekerjaanLainnya: false, isKategoriPekerjaan: false
   };
 
   // Proceed to next step
@@ -291,6 +301,24 @@ export class UserForm extends Component {
     }
   }
 
+  handlePekerjaanLain = input => e => {
+    this.setState({ [input]: e.target.value });
+    if (e.target.value === "lainnyaPekerjaan") {
+      this.setState({ isPekerjaanLainnya: true })
+    } else {
+      this.setState({ isPekerjaanLainnya: false })
+    }
+  }
+
+  handlekategoriInstansiPekerjaanSuami = input => e => {
+    this.setState({ [input]: e.target.value });
+    if (e.target.value === "lainnyaKategori") {
+      this.setState({ isKategoriPekerjaan: true })
+    } else {
+      this.setState({ isKategoriPekerjaan: false })
+    }
+  }
+
   getDaftarProvinsi() {
     axios.get("https://dev.farizdotid.com/api/daerahindonesia/provinsi")
       .then((response) => {
@@ -368,18 +396,21 @@ export class UserForm extends Component {
       alamatSuratMenyurat, noTeleponRumah, email, noHP, statusPerkawinan, pendidikanTerakhir, daftarProvinsi, daftarKabupatenKota, daftarKecamatan, daftarKelurahan, kondisiBangunan,
 
       //useState pada form Fasilitas Pembayaran dan data pembiayaan dimiliki
-      isLainnya, isMmq, isLainProgram, isAkad, isProperti, isPropertiKendaraan, isTakeOver, isFasilitas, isBank, isYa, isKerabat,
+      isLainnya, isMmq, isLainProgram, isAkad, isProperti, isPropertiKendaraan, isTakeOver, isFasilitas, isBank, isYa, isKerabat, isPekerjaanLainnya, isKategoriPekerjaan,
 
       //Data Suami Istri dan Data Pekerjaan Suami Istri
-      namaSuamiIstri, tempatLahirSuamiIstri, tanggalLahirSuamiIstri, nomorKTPSuamiIstri, nomorNPWPSuamiIstri, pekerjaanSuamiIstri, lamaBekerjaSuamiIstri, jenisPekerjaanSuamiIstri,
+      namaSuamiIstri, tempatLahirSuamiIstri, tanggalLahirSuamiIstri, nomorKTPSuamiIstri, nomorNPWPSuamiIstri, pekerjaanSuamiIstri, lamaBekerjaSuamiIstri,
       statusPekerjaanSuamiIstri, namaPerusahaanSuamiIstri, tempatUsahaSuamiIstri, kategoriInstansiSuamiIstri, bidangUsahaSuamiIstri, jumlahKaryawanSuamiIstri, teleponKantorSuamiIstri,
-      teleponHrdSuamiIstri, jabatanSuamiIstri, pendapatanBulananSuamiIstri, pembayaranGajiSuamiIstri, emailHrdSuamiIstri, emailAtasanSuamiIstri,
+      teleponHrdSuamiIstri, pendapatanBulananSuamiIstri, pembayaranGajiSuamiIstri, emailHrdSuamiIstri, emailAtasanSuamiIstri,
 
       //Form Kerabat
       namaKerabat, alamatKerabat, provinsiKerabat, kotaKerabat, kecamatanKerabat, kelurahanKerabat, RtKerabat, RwKerabat, kodePosKerabat, telpRumah, noHpKerabat, hubunganDenganNasabah, kerabatLainnya,
 
+      //form Pekerjaan Suami Istri
+      tahunLamaBekerja, bulanLamaBekerja, jumlahKaryawanPekerjaanSuami, pekerjaanLainnya, jabatanSuamiIstri, kategoriInstansi, lainKategoriPekerjaan, pendapatanPerbulan, kategoriInstansiPekerjaanSuami, jenisPekerjaanSuamiIstri,
+
       //Data Pekerjaan Pemohon
-      lamaBekerja, jenisPekerjaan, statusPekerjaan, namaPerusahaan, alamatKantor, kategoriInstansi, bidangUsaha, jumlahKaryawan, teleponKantor, teleponHRD, jabatan, pendapatanPerBulan, pembayaranGaji, emailHRD, emailAtasan, teleponAtasan } = this.state;
+      lamaBekerja, jenisPekerjaan, statusPekerjaan, namaPerusahaan, alamatKantor, bidangUsaha, jumlahKaryawan, teleponKantor, teleponHRD, jabatan, pendapatanPerBulan, pembayaranGaji, emailHRD, emailAtasan, teleponAtasan } = this.state;
 
     const values = {
       //Fasilitas Pembayaran
@@ -392,10 +423,12 @@ export class UserForm extends Component {
       alamatSaatIni, provinsiSaatIni, kotaKabupatenSaatIni, kelurahanSaatIni, kecamatanSaatIni, kodeposSaatIni, alamatSuratMenyurat, noTeleponRumah, email, noHP, statusPerkawinan, pendidikanTerakhir, kondisiBangunan,
 
       //Data Suami Istri dan Data Pekerjaan Suami Istri
-      namaSuamiIstri, tempatLahirSuamiIstri, tanggalLahirSuamiIstri, nomorKTPSuamiIstri, nomorNPWPSuamiIstri, pekerjaanSuamiIstri, lamaBekerjaSuamiIstri, jenisPekerjaanSuamiIstri,
+      namaSuamiIstri, tempatLahirSuamiIstri, tanggalLahirSuamiIstri, nomorKTPSuamiIstri, nomorNPWPSuamiIstri, pekerjaanSuamiIstri, lamaBekerjaSuamiIstri, 
       statusPekerjaanSuamiIstri, namaPerusahaanSuamiIstri, tempatUsahaSuamiIstri, kategoriInstansiSuamiIstri, bidangUsahaSuamiIstri, jumlahKaryawanSuamiIstri, teleponKantorSuamiIstri,
-      teleponHrdSuamiIstri, jabatanSuamiIstri, pendapatanBulananSuamiIstri, pembayaranGajiSuamiIstri, emailHrdSuamiIstri, emailAtasanSuamiIstri,
+      teleponHrdSuamiIstri, pendapatanBulananSuamiIstri, pembayaranGajiSuamiIstri, emailHrdSuamiIstri, emailAtasanSuamiIstri,
 
+      //form pekerjaan suami istri
+      tahunLamaBekerja, bulanLamaBekerja, jumlahKaryawanPekerjaanSuami, pekerjaanLainnya, jabatanSuamiIstri, kategoriInstansiPekerjaanSuami, lainKategoriPekerjaan, pendapatanPerbulan, jenisPekerjaanSuamiIstri,
       //Form Kerabat
       namaKerabat, alamatKerabat, provinsiKerabat, kotaKerabat, kecamatanKerabat, kelurahanKerabat, RtKerabat, RwKerabat, kodePosKerabat, telpRumah, noHpKerabat, hubunganDenganNasabah, kerabatLainnya,
       //Data Pekerjaan Pemohon
@@ -490,6 +523,7 @@ export class UserForm extends Component {
             nextStep={this.nextStep}
             handleChange={this.handleChange}
             values={values}
+            handleKeuangan={this.handleKeuangan}
           />
         );
 
@@ -502,9 +536,9 @@ export class UserForm extends Component {
           />
         )
 
-        case 6:
-          return(
-            <FormDataKerabat
+      case 6:
+        return (
+          <FormDataKerabat
             isKerabat={isKerabat}
             daftarProvinsi={daftarProvinsi}
             daftarKabupatenKota={daftarKabupatenKota}
@@ -523,14 +557,19 @@ export class UserForm extends Component {
             prevStep={this.prevStep}
             handleChange={this.handleChange}
             values={values}
-            />
-          )
+          />
+        )
       case 7:
         return (
           <DataPekerjaanSuamiIstri
+          isKategoriPekerjaan={isKategoriPekerjaan}
+          isPekerjaanLainnya={isPekerjaanLainnya}
+            handlePekerjaanLain={this.handlePekerjaanLain}
+            handlekategoriInstansiPekerjaanSuami={this.handlekategoriInstansiPekerjaanSuami }
             nextStep={this.nextStep}
             prevStep={this.prevStep}
             handleChange={this.handleChange}
+
             values={values}
           />
         );
