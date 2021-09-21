@@ -25,7 +25,8 @@ const styles = theme => createStyles({
     right: 150
   },
   text: {
-    width: "641px"
+    width: "641px",
+    display : "flex"
   }
 });
 
@@ -154,21 +155,23 @@ export class DataPembiayaanDimiliki extends Component {
           <br />
           <br />
           <FormControl className={classes.formControl}>
-            <FormLabel className={classes.label}>Jatuh Tempo</FormLabel>
-            <TextField
-               type="date"
-               format="YYYY-MM-DD"
-               id="start_date"
-               name="start_date"
-               placeholder="Start Date"
-               value={this.state.start_date}
-               onChange={this.onChangeHandle}
-               className={classes.text}
-               onChange={handleChange('jatuhTempo')}
-               defaultValue={values.jatuhTempo}
-               margin="normal"
-               fullWidth
-            />
+            <div className={classes.text}>
+              <p className="date">Jatuh Tempo</p>
+              <TextField
+                type="date"
+                format="YYYY-MM-DD"
+                id="start_date"
+                name="start_date"
+                placeholder="Start Date"
+                value={this.state.start_date}
+                onChange={this.onChangeHandle}
+                className={classes.text}
+                onChange={handleChange('jatuhTempo')}
+                defaultValue={values.jatuhTempo}
+                margin="normal"
+                fullWidth
+              />
+            </div>
           </FormControl>
 
           <br />

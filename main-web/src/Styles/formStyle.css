@@ -36,6 +36,15 @@ body, html{
     color: #6A0070;
 }
 
+.date {
+    display: flex;
+    font-size: 10px;
+    color: #490E73;
+    /* justify-content: center; */
+    align-items: center;
+    width: 100px;
+}
+
 .switchLabel {
     color: #000000;
     font-size: 12px;
